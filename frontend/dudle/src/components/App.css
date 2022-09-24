@@ -1,0 +1,6 @@
+.MuiContainer-root {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  padding-left: 0;
+  padding-right: 0;
+}

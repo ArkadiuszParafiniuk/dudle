@@ -1,0 +1,26 @@
+$sreenSize: 1280px;
+$appPadding: 0;
+
+.App {
+    padding: $appPadding !important;
+    @media screen and (min-width: $sreenSize) {
+        max-width: 1280px !important;
+      }
+}
+
+.Button {
+  margin: 5px !important;
+}
+
+.DetailsContainer {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.MultilineTextfield {
+  width: 100% !important;
+}
+
+.VerticalElement {
+  margin-top: 15px !important;
+}
