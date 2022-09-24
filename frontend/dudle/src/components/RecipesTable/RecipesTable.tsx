@@ -107,9 +107,17 @@ export const RecipesTable = () => {
     }
   };
 
+  const handleSelectTag = (e: React.ChangeEvent, value: string | null) => {
+    let tags = chosenTags;
+    if (value && !tags.includes(value)) {
+      setChosenTags(tags.concat(value));
+    }
+    setTagInput("");
+  };
+
   return (
     <Fragment>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} paddingTop="10px">
         <Grid container spacing={2}>
           <Grid item xs={10}>
             <form>
@@ -150,6 +158,9 @@ export const RecipesTable = () => {
           onKeyUp={(e) => handleAddTag(e, e.target as HTMLInputElement)}
           onInputChange={(e, v) => onTagInputChange(v ? v.toUpperCase() : "")}
           blurOnSelect
+          onChange={(e, v) =>
+            handleSelectTag(e as React.ChangeEvent<HTMLSelectElement>, v)
+          }
           renderInput={(params) => (
             <TextField {...params} label="Filtruj po tagu" />
           )}
