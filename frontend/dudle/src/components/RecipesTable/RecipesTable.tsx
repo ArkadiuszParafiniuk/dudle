@@ -19,6 +19,8 @@ import { getTypeOfDishByKey } from "../../model/enum/TypeOfDish";
 import AddIcon from "@mui/icons-material/Add";
 import Autocomplete from "@mui/material/Autocomplete";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 export const RecipesTable = () => {
   const [data, setData] = useState([]);
@@ -107,19 +109,36 @@ export const RecipesTable = () => {
 
   return (
     <Fragment>
-      <form>
-        <TextField
-          id="search-bar"
-          className="text"
-          variant="outlined"
-          placeholder="Szukaj przepisu..."
-          size="small"
-          onChange={(e) => handleSetTitle(e.target.value)}
-        />
-        <IconButton type="submit" aria-label="search">
-          <SearchIcon />
-        </IconButton>
-      </form>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={10}>
+            <form>
+              <TextField
+                id="search-bar"
+                className="text"
+                variant="outlined"
+                placeholder="Szukaj przepisu..."
+                size="small"
+                onChange={(e) => handleSetTitle(e.target.value)}
+              />
+              <IconButton type="submit" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </form>
+          </Grid>
+          <Grid item xs={2}>
+            <Grid container justifyContent="flex-end">
+              <Button
+                className="Button"
+                variant="contained"
+                onClick={() => navigate(`/recipe/create`)}
+              >
+                Dodaj przepis
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
       <div>
         <Autocomplete
           id="tag-input-field"
@@ -179,13 +198,6 @@ export const RecipesTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
-        className="Button"
-        variant="contained"
-        onClick={() => navigate(`/recipe/create`)}
-      >
-        Dodaj przepis
-      </Button>
     </Fragment>
   );
 };

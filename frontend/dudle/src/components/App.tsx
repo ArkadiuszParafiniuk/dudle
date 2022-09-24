@@ -19,6 +19,9 @@ type AppState = {};
 class App extends React.Component<{}, AppState> {
   theme = createTheme({
     palette: {
+      primary: {
+        main: "#ff6600",
+      },
       secondary: {
         main: "#fd7909",
       },
@@ -33,7 +36,7 @@ class App extends React.Component<{}, AppState> {
             <Grid item xs={12}>
               <Paper>
                 <BrowserRouter>
-                  <HeaderBar headerText="Przepisownik" />
+                  <HeaderBar headerText="Przepiśnik" />
                   <Routes>
                     <Route path="/" element={<RecipesTable />} />
                     <Route path="/recipe/:uuid" element={<RecipeDetails />} />
