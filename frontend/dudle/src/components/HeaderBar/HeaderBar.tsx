@@ -12,7 +12,7 @@ export default function HeaderBar(props: HeaderBarProps) {
 
   return (
     <AppBar position="static" onClick={() => navigate(`/`)}>
-      <h1>{props.headerText}</h1>
+      <h1 style={{ textAlign: "center" }}>{props.headerText}</h1>
     </AppBar>
   );
 }

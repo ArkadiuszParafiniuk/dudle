@@ -117,24 +117,26 @@ export const RecipesTable = () => {
 
   return (
     <Fragment>
-      <Box sx={{ flexGrow: 1 }} paddingTop="10px">
+      <Box sx={{ flexGrow: 1 }} padding="10px">
         <Grid container spacing={2}>
-          <Grid item xs={10}>
+          <Grid item xs={8} paddingTop="35px!important">
             <form>
-              <TextField
-                id="search-bar"
-                className="text"
-                variant="outlined"
-                placeholder="Szukaj przepisu..."
-                size="small"
-                onChange={(e) => handleSetTitle(e.target.value)}
-              />
-              <IconButton type="submit" aria-label="search">
-                <SearchIcon />
-              </IconButton>
+              <Box display="flex">
+                <TextField
+                  id="search-bar"
+                  className="text"
+                  variant="outlined"
+                  placeholder="Szukaj przepisu..."
+                  size="small"
+                  onChange={(e) => handleSetTitle(e.target.value)}
+                />
+                <IconButton type="submit" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </Box>
             </form>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Grid container justifyContent="flex-end">
               <Button
                 className="Button"
@@ -146,32 +148,29 @@ export const RecipesTable = () => {
             </Grid>
           </Grid>
         </Grid>
+        <Box display="flex">
+          <Autocomplete
+            id="tag-input-field"
+            freeSolo
+            options={tags}
+            sx={{ width: 300 }}
+            value={tagInput}
+            onKeyUp={(e) => handleAddTag(e, e.target as HTMLInputElement)}
+            onInputChange={(e, v) => onTagInputChange(v ? v.toUpperCase() : "")}
+            blurOnSelect
+            onChange={(e, v) =>
+              handleSelectTag(e as React.ChangeEvent<HTMLSelectElement>, v)
+            }
+            renderInput={(params) => (
+              <TextField {...params} label="Filtruj po tagu" />
+            )}
+          />
+
+          <IconButton onClick={() => handleAddTagButton()}>
+            <AddIcon />
+          </IconButton>
+        </Box>
       </Box>
-      <div>
-        <Autocomplete
-          id="tag-input-field"
-          style={{ display: "inline-block" }}
-          freeSolo
-          options={tags}
-          sx={{ width: 300 }}
-          value={tagInput}
-          onKeyUp={(e) => handleAddTag(e, e.target as HTMLInputElement)}
-          onInputChange={(e, v) => onTagInputChange(v ? v.toUpperCase() : "")}
-          blurOnSelect
-          onChange={(e, v) =>
-            handleSelectTag(e as React.ChangeEvent<HTMLSelectElement>, v)
-          }
-          renderInput={(params) => (
-            <TextField {...params} label="Filtruj po tagu" />
-          )}
-        />
-        <IconButton
-          style={{ marginTop: "40px" }}
-          onClick={() => handleAddTagButton()}
-        >
-          <AddIcon />
-        </IconButton>
-      </div>
       {chosenTags?.map((chosenTag: string) => (
         <Fragment>
           <Button variant="outlined">{chosenTag}</Button>
@@ -179,6 +178,7 @@ export const RecipesTable = () => {
             aria-label="delete"
             size="small"
             onClick={() => handleDeleteTag(chosenTag)}
+            style={{ paddingTop: "40px" }}
           >
             <DeleteIcon />
           </IconButton>
