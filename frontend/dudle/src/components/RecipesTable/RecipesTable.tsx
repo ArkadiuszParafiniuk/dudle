@@ -15,18 +15,23 @@ import {
 import { Recipe } from "../../model/Recipe";
 import { constants } from "../../constans/constants";
 import SearchIcon from "@mui/icons-material/Search";
-import { getTypeOfDishByKey } from "../../model/enum/TypeOfDish";
+import {
+  getTypeOfDishByEnumValue,
+  getTypeOfDishByKey,
+} from "../../model/enum/TypeOfDish";
 import AddIcon from "@mui/icons-material/Add";
 import Autocomplete from "@mui/material/Autocomplete";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { TypeOfDish } from "../../model/enum/TypeOfDish";
 
 export const RecipesTable = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [tags, setTags] = useState<string[]>([]);
   const [chosenTags, setChosenTags] = useState<string[]>([]);
+  const [chosenType, setChosenType] = useState<TypeOfDish>(TypeOfDish.ALL);
   const [tagInput, setTagInput] = useState("");
   const [title, setTitle] = useState("");
 
@@ -43,7 +48,7 @@ export const RecipesTable = () => {
 
   useEffect(() => {
     search();
-  }, [title, chosenTags]);
+  }, [title, chosenTags, chosenType]);
 
   function fetchTags() {
     if (tagInput.length) {
@@ -63,6 +68,11 @@ export const RecipesTable = () => {
 
   const search = () => {
     let requestUrl = constants.chefBaseUrl + "/recipe/find?title=" + title;
+    if (chosenType != TypeOfDish.ALL) {
+      requestUrl = requestUrl.concat(
+        "&typeOfDish=" + getTypeOfDishByEnumValue(chosenType)
+      );
+    }
     if (chosenTags.length) {
       chosenTags.forEach((t) => {
         requestUrl = requestUrl.concat("&tags=" + t);
@@ -79,6 +89,10 @@ export const RecipesTable = () => {
 
   const handleSetTitle = (title: string) => {
     setTitle(title);
+  };
+
+  const onCategoryChange = (value: string) => {
+    setChosenType(value as TypeOfDish);
   };
 
   const handleDeleteTag = (tag: string) => {
@@ -148,6 +162,19 @@ export const RecipesTable = () => {
             </Grid>
           </Grid>
         </Grid>
+        <Box>
+          <Autocomplete
+            options={Object.values(TypeOfDish)}
+            sx={{ width: 300 }}
+            value={chosenType}
+            contentEditable={false}
+            onInputChange={(e, v) => onCategoryChange(v ? v : "")}
+            clearIcon={false}
+            renderInput={(params) => (
+              <TextField {...params} label="Kategoria" />
+            )}
+          />
+        </Box>
         <Box display="flex">
           <Autocomplete
             id="tag-input-field"

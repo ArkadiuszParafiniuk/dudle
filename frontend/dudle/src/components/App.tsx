@@ -36,7 +36,7 @@ class App extends React.Component<{}, AppState> {
             <Grid item xs={12}>
               <Paper>
                 <BrowserRouter>
-                  <HeaderBar headerText="Przepiśnik" />
+                  <HeaderBar headerText="PRZEPIŚNIK" />
                   <Routes>
                     <Route path="/" element={<RecipesTable />} />
                     <Route path="/recipe/:uuid" element={<RecipeDetails />} />

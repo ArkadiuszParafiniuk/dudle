@@ -2,6 +2,7 @@ export enum TypeOfDish {
   BREAKFAST = "Śniadanie",
   DINNER = "Obiad",
   DESSERT = "Deser",
+  ALL = "Wszystkie",
 }
 
 export function getTypeOfDishByKey(key: string) {
