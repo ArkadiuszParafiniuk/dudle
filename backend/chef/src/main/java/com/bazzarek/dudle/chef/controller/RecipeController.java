@@ -54,7 +54,7 @@ public class RecipeController {
 
   @PostMapping(path = "/{recipeUuid}/addPhoto", consumes = "multipart/form-data")
   @CrossOrigin
-  public void addPhoto(@PathVariable String recipeUuid, @RequestParam("image") MultipartFile image) {
+  public void addPhoto(@PathVariable String recipeUuid, @RequestParam(value = "image") MultipartFile image) {
     recipeService.addPhoto(recipeUuid, image);
   }
 

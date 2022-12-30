@@ -232,7 +232,9 @@ export const EditRecipeDetails = () => {
         onChange={(e) => onTitleChange(e.target.value)}
       />
       <Autocomplete
-        options={Object.values(TypeOfDish)}
+        options={Object.values(TypeOfDish).filter(
+          (value) => value != "Wszystkie"
+        )}
         sx={{ width: 300 }}
         value={category}
         onInputChange={(e, v) => onCategoryChange(v ? v : "")}

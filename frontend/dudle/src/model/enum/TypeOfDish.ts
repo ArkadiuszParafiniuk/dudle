@@ -2,6 +2,7 @@ export enum TypeOfDish {
   BREAKFAST = "Śniadanie",
   DINNER = "Obiad",
   DESSERT = "Deser",
+  DRINK = "Napój",
   ALL = "Wszystkie",
 }
 

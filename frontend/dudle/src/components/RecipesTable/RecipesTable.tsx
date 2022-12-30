@@ -25,6 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { TypeOfDish } from "../../model/enum/TypeOfDish";
+import { AutocompleteInputChangeReason } from "@mui/material/useAutocomplete";
 
 export const RecipesTable = () => {
   const [data, setData] = useState([]);
@@ -83,8 +84,15 @@ export const RecipesTable = () => {
       .then(setData);
   };
 
-  const onTagInputChange = (value: string) => {
-    setTagInput(value.toUpperCase());
+  const onTagInputChange = (
+    value: string,
+    reason: AutocompleteInputChangeReason
+  ) => {
+    if (reason === "reset") {
+      setTagInput("");
+    } else {
+      setTagInput(value.toUpperCase());
+    }
   };
 
   const handleSetTitle = (title: string) => {
@@ -182,9 +190,11 @@ export const RecipesTable = () => {
             options={tags}
             sx={{ width: 300 }}
             value={tagInput}
+            key={tagInput}
             onKeyUp={(e) => handleAddTag(e, e.target as HTMLInputElement)}
-            onInputChange={(e, v) => onTagInputChange(v ? v.toUpperCase() : "")}
-            blurOnSelect
+            onInputChange={(e, v, r) =>
+              onTagInputChange(v ? v.toUpperCase() : "", r)
+            }
             onChange={(e, v) =>
               handleSelectTag(e as React.ChangeEvent<HTMLSelectElement>, v)
             }
@@ -205,7 +215,6 @@ export const RecipesTable = () => {
             aria-label="delete"
             size="small"
             onClick={() => handleDeleteTag(chosenTag)}
-            style={{ paddingTop: "40px" }}
           >
             <DeleteIcon />
           </IconButton>

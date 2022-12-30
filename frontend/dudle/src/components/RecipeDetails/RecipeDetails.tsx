@@ -25,10 +25,15 @@ export const RecipeDetails = () => {
   const [data, setData] = useState(
     new Recipe("", "", [], TypeOfDish.DINNER, [], "")
   );
+  const [pictures, setPictures] = useState<string[]>([]);
+
   useEffect(() => {
     fetch(constants.chefBaseUrl + "/recipe/" + uuid)
       .then((res) => res.json())
-      .then(setData);
+      .then((data) => {
+        setData(data);
+        setPictures(data.images.map((image: any) => image.data));
+      });
   }, []);
 
   const handleDeleteRecipe = () => {
@@ -87,6 +92,11 @@ export const RecipeDetails = () => {
         minRows={5}
         value={data.content}
       />
+      {constants.featurePhotos && pictures[0] != null ? (
+        <div>
+          <img src={`data:image/png;base64,${pictures[0]}`} />
+        </div>
+      ) : null}
       <Button
         className="Button"
         variant="contained"
