@@ -6,6 +6,7 @@ import com.bazzarek.dudle.chef.service.RecipeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping(path = "/recipe")
 public class RecipeController {
+
+  @Value("${recipe.write}")
+  private boolean recipeWrite;
 
   private final RecipeService recipeService;
 
@@ -49,24 +53,36 @@ public class RecipeController {
   @PostMapping(path = "/create", consumes = "application/json")
   @CrossOrigin
   public Recipe createRecipe(@RequestBody Recipe recipe) {
+    if (!recipeWrite) {
+      throw new RuntimeException("Recipe write is disabled");
+    }
     return recipeService.create(recipe);
   }
 
   @PostMapping(path = "/{recipeUuid}/addPhoto", consumes = "multipart/form-data")
   @CrossOrigin
   public void addPhoto(@PathVariable String recipeUuid, @RequestParam(value = "image") MultipartFile image) {
+    if (!recipeWrite) {
+      throw new RuntimeException("Recipe write is disabled");
+    }
     recipeService.addPhoto(recipeUuid, image);
   }
 
   @PutMapping(path = "/update/{recipeUuid}", consumes = "application/json")
   @CrossOrigin
   public Recipe updateRecipe(@PathVariable String recipeUuid, @RequestBody Recipe recipe) {
+    if (!recipeWrite) {
+      throw new RuntimeException("Recipe write is disabled");
+    }
     return recipeService.update(recipeUuid, recipe);
   }
 
   @DeleteMapping(path = "/delete/{recipeUuid}")
   @CrossOrigin
   public void deleteRecipe(@PathVariable String recipeUuid) {
+    if (!recipeWrite) {
+      throw new RuntimeException("Recipe write is disabled");
+    }
     recipeService.delete(recipeUuid);
   }
 
