@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class RecipeController {
 
   @Value("${recipe.write}")
-  private boolean recipeWrite;
+  private boolean isRecipeEditEnabled;
 
   private final RecipeService recipeService;
 
@@ -50,10 +50,16 @@ public class RecipeController {
     return recipeService.findByParameters(title, typeOfDish, tags);
   }
 
+  @GetMapping(path = "/isEditEnabled")
+  @CrossOrigin
+  public boolean isEditEnabled() {
+    return isRecipeEditEnabled;
+  }
+
   @PostMapping(path = "/create", consumes = "application/json")
   @CrossOrigin
   public Recipe createRecipe(@RequestBody Recipe recipe) {
-    if (!recipeWrite) {
+    if (!isRecipeEditEnabled) {
       throw new RuntimeException("Recipe write is disabled");
     }
     return recipeService.create(recipe);
@@ -62,7 +68,7 @@ public class RecipeController {
   @PostMapping(path = "/{recipeUuid}/addPhoto", consumes = "multipart/form-data")
   @CrossOrigin
   public void addPhoto(@PathVariable String recipeUuid, @RequestParam(value = "image") MultipartFile image) {
-    if (!recipeWrite) {
+    if (!isRecipeEditEnabled) {
       throw new RuntimeException("Recipe write is disabled");
     }
     recipeService.addPhoto(recipeUuid, image);
@@ -71,7 +77,7 @@ public class RecipeController {
   @PutMapping(path = "/update/{recipeUuid}", consumes = "application/json")
   @CrossOrigin
   public Recipe updateRecipe(@PathVariable String recipeUuid, @RequestBody Recipe recipe) {
-    if (!recipeWrite) {
+    if (!isRecipeEditEnabled) {
       throw new RuntimeException("Recipe write is disabled");
     }
     return recipeService.update(recipeUuid, recipe);
@@ -80,7 +86,7 @@ public class RecipeController {
   @DeleteMapping(path = "/delete/{recipeUuid}")
   @CrossOrigin
   public void deleteRecipe(@PathVariable String recipeUuid) {
-    if (!recipeWrite) {
+    if (!isRecipeEditEnabled) {
       throw new RuntimeException("Recipe write is disabled");
     }
     recipeService.delete(recipeUuid);
